@@ -35,7 +35,6 @@ const getSearchGallery = () => {
   keySearch(
     param.value,
     (response) => {
-      console.log(response)
       photos.value = response.data.response.body.items.item
       currentPage.value = response.data.response.body.pageNo
       totalPage.value = Math.ceil(
@@ -43,7 +42,7 @@ const getSearchGallery = () => {
       )
     },
     (err) => {
-      console.log(err)
+      console.error(err)
     }
   )
 }
@@ -52,9 +51,6 @@ const getGalleryList = () => {
   listGallery(
     param.value,
     (response) => {
-      console.log(response.data.response.body.items.item)
-      console.log(response.data.response.body.totalCount)
-      console.log(response)
       photos.value = response.data.response.body.items.item
       currentPage.value = response.data.response.body.pageNo
       totalPage.value = Math.ceil(
@@ -62,7 +58,7 @@ const getGalleryList = () => {
       )
     },
     (err) => {
-      console.log(err)
+      console.error(err)
     }
   )
 }
