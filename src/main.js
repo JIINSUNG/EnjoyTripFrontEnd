@@ -6,16 +6,6 @@ import 'vuetify/styles'
 import { createVuetify } from 'vuetify'
 import { MotionPlugin } from '@vueuse/motion'
 
-// MSW 설정 (개발 환경에서만)
-if (import.meta.env.DEV) {
-  const { worker } = await import('./mocks/browser')
-  await worker.start({
-    onUnhandledRequest: 'bypass',
-    quiet: false
-  })
-  console.log('[MSW] Mock Service Worker 활성화됨')
-}
-
 import {
   DatePicker,
   RangePicker,
@@ -48,29 +38,43 @@ import router from './router'
 import 'bootstrap'
 import 'bootstrap/dist/css/bootstrap.min.css'
 
-const app = createApp(App)
-const pinia = createPinia()
+// MSW 설정 (프로덕션에서도 활성화 - 백엔드 미사용 시)
+async function initApp() {
+  // MSW 초기화
+  const { worker } = await import('./mocks/browser')
+  await worker.start({
+    onUnhandledRequest: 'bypass',
+    quiet: !import.meta.env.DEV
+  })
+  console.log('[MSW] Mock Service Worker 활성화됨')
 
-pinia.use(piniaPluginPersistedstate)
+  // 앱 초기화
+  const app = createApp(App)
+  const pinia = createPinia()
 
-app.use(pinia)
-app.use(router)
-app.use(vuetify)
-app.use(MotionPlugin)
+  pinia.use(piniaPluginPersistedstate)
 
-app.use(DatePicker)
-app.use(RangePicker)
-app.use(Card)
-app.use(Timeline)
-app.use(PageHeader)
-app.use(Descriptions)
-app.use(Button)
-app.use(Select)
-app.use(Form)
-app.use(Checkbox)
-app.use(FloatButton)
-app.use(Input)
-app.use(List)
-app.use(Avatar)
+  app.use(pinia)
+  app.use(router)
+  app.use(vuetify)
+  app.use(MotionPlugin)
 
-app.mount('#app')
+  app.use(DatePicker)
+  app.use(RangePicker)
+  app.use(Card)
+  app.use(Timeline)
+  app.use(PageHeader)
+  app.use(Descriptions)
+  app.use(Button)
+  app.use(Select)
+  app.use(Form)
+  app.use(Checkbox)
+  app.use(FloatButton)
+  app.use(Input)
+  app.use(List)
+  app.use(Avatar)
+
+  app.mount('#app')
+}
+
+initApp()
