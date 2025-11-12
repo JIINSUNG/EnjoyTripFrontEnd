@@ -57,7 +57,7 @@
     "vite": "^4.4.11"
   },
   "engines": {
-    "node": "16"
+    "node": ">=16.x"
   },
   "msw": {
     "workerDirectory": [
