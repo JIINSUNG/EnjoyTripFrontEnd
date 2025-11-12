@@ -49,16 +49,21 @@ const cultureList = ref([])
 const totalCount = ref(0)
 
 const getAttractions = () => {
-  const index = Math.random() * 94
+  // pageNo를 1로 고정해서 테스트
+  const index = 1
   searchAttraction(
     12,
-    parseInt(index),
+    index,
     (response) => {
+      console.log('API Response:', response.data)
       attractionList.value = response.data.response.body.items.item
       totalCount.value = response.data.response.body.totalCount
     },
     (error) => {
       console.error('Error fetching attractions:', error)
+      console.error('Error response:', error.response?.data)
+      console.error('Request URL:', error.config?.url)
+      console.error('Full URL:', error.config?.baseURL + '/' + error.config?.url)
     }
   )
 }

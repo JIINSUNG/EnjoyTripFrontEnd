@@ -8,7 +8,7 @@ const publicAPI = publicAxios()
 function searchAttraction(categoryId, pageNo, success, fail) {
   publicAPI
     .get(
-      `areaBasedList1?MobileOS=ETC&MobileApp=TRIPOLINE&_type=json&numOfRows=30&pageNo=${pageNo}&contentTypeId=${categoryId}&serviceKey=${VITE_PUBLIC_API_ENCODED}`
+      `areaBasedList1?serviceKey=${VITE_PUBLIC_API_ENCODED}&numOfRows=30&pageNo=${pageNo}&MobileOS=ETC&MobileApp=AppTest&arrange=A&contentTypeId=${categoryId}&_type=json`
     )
     .then(success)
     .catch(fail)
