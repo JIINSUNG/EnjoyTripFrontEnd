@@ -50,22 +50,20 @@ const totalCount = ref(0)
 
 const getAttractions = () => {
   const index = Math.random() * 94
-  console.log(parseInt(index))
   searchAttraction(
     12,
     parseInt(index),
     (response) => {
-      console.log(response.data)
       attractionList.value = response.data.response.body.items.item
       totalCount.value = response.data.response.body.totalCount
     },
     (error) => {
-      console.log(error)
+      console.error('Error fetching attractions:', error)
     }
   )
 }
 
-let typed // Declare typed variable
+let typed
 
 const filteredAttractionList = computed(() => {
   return attractionList.value.filter((attraction) => attraction.firstimage !== '')
@@ -108,85 +106,97 @@ onMounted(() => {
     <!-- display: flex; flex-direction: column; justify-content: center; align-items: center; padding: 0
   var(--site-padding-horizon); background: #fff; box-shadow: 0 10px 10px #45454533; -->
 
-    <div class="flex flex-col justify-center h-[150px] mt-[20px]">
-      <section class="flex flex-1 bg-green-200 rounded-full">
-        <div class="flex flex-col justify-center flex-1">
-          <div class="flex flex-1 justify-center mt-[10px]">
-            <h2>
-              <span><span>여행을 떠나기 전이라면 </span><strong>CheckList!</strong></span>
-            </h2>
-          </div>
-          <div class="flex flex-1">
-            <ul class="flex flex-1 items-center text-center justify-around">
-              <li>
-                <RouterLink class="no-underline text-black" :to="{ name: 'weather' }">
-                  <img
-                    src="https://raw.githubusercontent.com/Tarikul-Islam-Anik/Animated-Fluent-Emojis/master/Emojis/Travel%20and%20places/Sun%20with%20Face.png"
-                    alt="Sun with Face"
-                    width="75"
-                    height="75"
-                  />
-                  <span class="text-black">날씨 확인</span></RouterLink
-                >
-              </li>
-              <li>
-                <RouterLink class="no-underline text-black" :to="{ name: 'estations' }">
-                  <img
-                    src="https://raw.githubusercontent.com/Tarikul-Islam-Anik/Animated-Fluent-Emojis/master/Emojis/Travel%20and%20places/High%20Voltage.png"
-                    alt="High Voltage"
-                    width="75"
-                    height="75"
-                  />
-
-                  <span>전기차 충전소</span></RouterLink
-                >
-              </li>
-              <li>
-                <RouterLink class="no-underline text-black" :to="{ name: 'gallery' }">
-                  <img
-                    src="https://raw.githubusercontent.com/Tarikul-Islam-Anik/Animated-Fluent-Emojis/master/Emojis/Objects/Camera%20with%20Flash.png"
-                    alt="Camera with Flash"
-                    width="75"
-                    height="75"
-                  />
-                  <span>갤러리 구경</span></RouterLink
-                >
-              </li>
-              <li>
-                <RouterLink class="no-underline text-black" :to="{ name: 'hotplace' }">
-                  <img
-                    src="https://raw.githubusercontent.com/Tarikul-Islam-Anik/Animated-Fluent-Emojis/master/Emojis/Travel%20and%20places/Star.png"
-                    alt="Star"
-                    width="75"
-                    height="75"
-                  />
-                  <span>핫플 구경가기</span></RouterLink
-                >
-              </li>
-            </ul>
-          </div>
-        </div>
+    <div class="max-w-6xl mx-auto px-4 py-6">
+      <section class="bg-gradient-to-r from-emerald-100 to-teal-100 rounded-2xl shadow-lg p-5">
+        <h2 class="text-xl font-bold text-center mb-4 text-gray-800">여행 준비 체크리스트</h2>
+        <ul class="grid grid-cols-2 md:grid-cols-4 gap-3">
+          <li>
+            <RouterLink
+              :to="{ name: 'weather' }"
+              class="flex flex-col items-center p-3 bg-white rounded-xl hover:shadow-md transition-all hover:scale-105"
+            >
+              <img
+                src="https://raw.githubusercontent.com/Tarikul-Islam-Anik/Animated-Fluent-Emojis/master/Emojis/Travel%20and%20places/Sun%20with%20Face.png"
+                alt="날씨"
+                width="50"
+                height="50"
+                class="mb-1.5"
+              />
+              <span class="text-gray-700 font-medium text-sm">날씨</span>
+            </RouterLink>
+          </li>
+          <li>
+            <RouterLink
+              :to="{ name: 'estations' }"
+              class="flex flex-col items-center p-3 bg-white rounded-xl hover:shadow-md transition-all hover:scale-105"
+            >
+              <img
+                src="https://raw.githubusercontent.com/Tarikul-Islam-Anik/Animated-Fluent-Emojis/master/Emojis/Travel%20and%20places/High%20Voltage.png"
+                alt="충전소"
+                width="50"
+                height="50"
+                class="mb-1.5"
+              />
+              <span class="text-gray-700 font-medium text-sm">충전소</span>
+            </RouterLink>
+          </li>
+          <li>
+            <RouterLink
+              :to="{ name: 'gallery' }"
+              class="flex flex-col items-center p-3 bg-white rounded-xl hover:shadow-md transition-all hover:scale-105"
+            >
+              <img
+                src="https://raw.githubusercontent.com/Tarikul-Islam-Anik/Animated-Fluent-Emojis/master/Emojis/Objects/Camera%20with%20Flash.png"
+                alt="갤러리"
+                width="50"
+                height="50"
+                class="mb-1.5"
+              />
+              <span class="text-gray-700 font-medium text-sm">갤러리</span>
+            </RouterLink>
+          </li>
+          <li>
+            <RouterLink
+              :to="{ name: 'hotplace' }"
+              class="flex flex-col items-center p-3 bg-white rounded-xl hover:shadow-md transition-all hover:scale-105"
+            >
+              <img
+                src="https://raw.githubusercontent.com/Tarikul-Islam-Anik/Animated-Fluent-Emojis/master/Emojis/Travel%20and%20places/Star.png"
+                alt="핫플"
+                width="50"
+                height="50"
+                class="mb-1.5"
+              />
+              <span class="text-gray-700 font-medium text-sm">핫플레이스</span>
+            </RouterLink>
+          </li>
+        </ul>
       </section>
     </div>
 
-    <div class="flex flex-col justify-center mt-[20px]">
-      <h2 class="text-center">전국 방방곡곡의 유명한 관광지를 보여드릴게요</h2>
-      <div class="flex flex-col justify-center items-center text-center" v-if="totalCount">
-        Tripoline에는 {{ totalCount }}개의 관광지 정보가 있어요 <br />더 새로운 장소를 보고 싶다면?
-
-        <div class="flex gap-[10px]">
-          <img
-            class="align-self"
-            src="https://raw.githubusercontent.com/Tarikul-Islam-Anik/Animated-Fluent-Emojis/master/Emojis/Hand%20gestures/Backhand%20Index%20Pointing%20Right%20Light%20Skin%20Tone.png"
-            alt="Backhand Index Pointing Right Light Skin Tone"
-            width="45"
-            height="35"
-          />
-          <button class="btn btn-primary" @click="getAttractions">새로운장소 추천받기</button>
+    <div class="max-w-6xl mx-auto px-4 py-6">
+      <div class="text-center mb-5">
+        <h2 class="text-2xl font-bold text-gray-800 mb-2">인기 관광지</h2>
+        <div v-if="totalCount" class="space-y-2">
+          <p class="text-gray-600 text-sm">{{ totalCount.toLocaleString() }}개의 관광지 정보</p>
+          <button
+            @click="getAttractions"
+            class="inline-flex items-center gap-2 bg-blue-600 text-white px-5 py-2 rounded-lg hover:bg-blue-700 transition-all font-medium text-sm"
+          >
+            <span>새로운 장소 추천받기</span>
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                d="M13 7l5 5m0 0l-5 5m5-5H6"
+              ></path>
+            </svg>
+          </button>
         </div>
-      </div>
-      <div class="flex justify-center" v-else>
-        <v-progress-circular indeterminate color="primary"></v-progress-circular>
+        <div v-else class="flex justify-center">
+          <v-progress-circular indeterminate color="primary"></v-progress-circular>
+        </div>
       </div>
       <Carousel :itemsToShow="3.9" :autoplay="1000" :wrapAround="true" :transition="500">
         <Slide
@@ -230,18 +240,23 @@ onMounted(() => {
         </template>
       </Carousel>
     </div>
-    <!-- <a :href="meta.href"> </a> -->
-    <div class="flex flex-col justify-center mt-[20px]">
-      <div class="flex justify-center items-center bg-white">
-        <h1 class="text-center">
-          홈캉스라고 들어봤나? <span class="text-red">메타버스</span>로 떠나는 트리폴린!
-        </h1>
-        <img
-          src="https://raw.githubusercontent.com/Tarikul-Islam-Anik/Animated-Fluent-Emojis/master/Emojis/People%20with%20professions/Woman%20Fairy%20Medium-Light%20Skin%20Tone.png"
-          alt="Woman Fairy Medium-Light Skin Tone"
-          width="100"
-          height="100"
-        />
+    <div class="max-w-6xl mx-auto px-4 py-6">
+      <div class="text-center mb-5">
+        <div class="inline-flex items-center gap-2 mb-2">
+          <h2 class="text-2xl font-bold text-gray-800">
+            <span class="bg-gradient-to-r from-purple-600 to-pink-600 bg-clip-text text-transparent"
+              >메타버스</span
+            >
+            여행
+          </h2>
+          <img
+            src="https://raw.githubusercontent.com/Tarikul-Islam-Anik/Animated-Fluent-Emojis/master/Emojis/People%20with%20professions/Woman%20Fairy%20Medium-Light%20Skin%20Tone.png"
+            alt="메타버스"
+            width="40"
+            height="40"
+          />
+        </div>
+        <p class="text-gray-600 text-sm">집에서 즐기는 가상 여행 체험</p>
       </div>
 
       <carousel :items-to-show="3" :wrap-around="true">

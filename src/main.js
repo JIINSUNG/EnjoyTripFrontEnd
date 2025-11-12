@@ -6,6 +6,16 @@ import 'vuetify/styles'
 import { createVuetify } from 'vuetify'
 import { MotionPlugin } from '@vueuse/motion'
 
+// MSW 설정 (개발 환경에서만)
+if (import.meta.env.DEV) {
+  const { worker } = await import('./mocks/browser')
+  await worker.start({
+    onUnhandledRequest: 'bypass',
+    quiet: false
+  })
+  console.log('[MSW] Mock Service Worker 활성화됨')
+}
+
 import {
   DatePicker,
   RangePicker,

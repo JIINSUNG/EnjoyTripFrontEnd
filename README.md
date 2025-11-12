@@ -1,163 +1,361 @@
-# 관통프로젝트
-### 프로젝트이름 : EnjoyTrip (Tripoline)
-### 제출일: 2023.11.24일 
+<div align="center">
 
-### 참여 페어
-- 지인성(조장), 양유경
+# 🌏 EnjoyTrip (Tripoline)
 
-### 성과 
-SSAFY 10기 OO반 최종프로젝트 최우수상 수상 
+<img src="https://img.shields.io/badge/Vue.js-3.3.4-4FC08D?style=for-the-badge&logo=vue.js&logoColor=white" alt="Vue.js"/>
+<img src="https://img.shields.io/badge/Vite-4.4.11-646CFF?style=for-the-badge&logo=vite&logoColor=white" alt="Vite"/>
+<img src="https://img.shields.io/badge/TailwindCSS-3.3.5-38B2AC?style=for-the-badge&logo=tailwind-css&logoColor=white" alt="TailwindCSS"/>
+<img src="https://img.shields.io/badge/Pinia-2.1.7-FFD859?style=for-the-badge&logo=pinia&logoColor=black" alt="Pinia"/>
 
+**대한민국 여행을 더 즐겁게, 더 편리하게**
 
-## 시연영상 
-[영상보기](https://www.youtube.com/watch?v=XbaKYXYshVQ)
-### 타임라인
-- 프로젝트 소개 00:00 
-- 로그인, 회원가입 00:47 
-- 메인화면 및 기능 간략 소개 01:20
-- 챗봇 03:08 
-- 공지사항 03:46 
-- 게시판 04:30
-- 게시판 접근제어 05:18
-- 댓글, 좋아요, 조회수 05:40 
-- 글 작성 06:16
-- 카테고리별 글 검색 07:10
-- 베스트 글 보기 07:25 
-- 관광지검색 07:50
-- 관광지 좋아요 08:40 
-- 여행 계획 09:22 
-- 여행 계획 추가 09:38 
-- 여행 후기 11:25 
-- 핫플레이스 12:35
-- 마이페이지 13:10 
-- 프로필 사진 추가 13:30
-- 사용자 정보 변경 13:51
-- 찜한 관광지 보기 14:00
-- 회원탈퇴 14:10
-- 어드민페이지 14:30
-- 전체 사용자 조회 14:48
-- 사용자 관리 14:55
-- 날씨확인 15:54 
-- 전기차충전소 16:15
-- 갤러리 기능 16:44
-- 관광지 사진 캐러셀 17:35
-- 하단 컨텐츠 캐러셀 18:00
-- 404 페이지 18:40
-- 미로그인시 자동 리다이렉션 18:50
-- 마무리인사 19:05 
+[시연 영상](https://www.youtube.com/watch?v=XbaKYXYshVQ) · [프로젝트 소개](#-프로젝트-소개) · [기능](#-주요-기능) · [설치 및 실행](#-설치-및-실행)
 
-## 사용한 기술 스택
+</div>
 
-### FrontEnd
-- Vue3
+---
 
-<img width="627" alt="vue3" src="https://github.com/JIINSUNG/EnjoyTripBackEnd/assets/49591292/36c85dec-a8c9-4949-90b1-2819f1424885">
+## 📋 목차
 
-- Axios
+- [프로젝트 소개](#-프로젝트-소개)
+- [주요 기능](#-주요-기능)
+- [기술 스택](#-기술-스택)
+- [설치 및 실행](#-설치-및-실행)
+- [프로젝트 구조](#-프로젝트-구조)
+- [API 문서](#-api-문서)
+- [시연 영상](#-시연-영상)
+- [팀원](#-팀원)
 
-<img width="627" alt="biitstrap" src="https://github.com/JIINSUNG/EnjoyTripBackEnd/assets/49591292/2406901e-fad5-447c-94b3-c0ae4429a5a6">
+---
 
-- tailwind
+## 🎯 프로젝트 소개
 
-<img width="627" alt="tailwind" src="https://github.com/JIINSUNG/EnjoyTripBackEnd/assets/49591292/751eb223-72a6-46da-969f-a2c1b70a3cf4">
+**EnjoyTrip**은 대한민국 전역의 관광지 정보를 제공하고, 사용자가 여행 계획을 세우고 공유할 수 있는 종합 여행 플랫폼입니다.
 
-- bootstrap
+### 🏆 프로젝트 성과
 
-<img width="627" alt="axios" src="https://github.com/JIINSUNG/EnjoyTripBackEnd/assets/49591292/d8ba361f-c7cc-49e1-b7a4-755cd974aeba">
+```
+SSAFY 10기 관통 프로젝트 최우수상 수상
+```
 
+### 📅 프로젝트 기간
 
-  
-### BackEnd
-- SpringBoot
+- **개발 기간**: 2023.10 ~ 2023.11
+- **최종 발표**: 2023.11.24
 
-<img width="627" alt="springboot" src="https://github.com/JIINSUNG/EnjoyTripBackEnd/assets/49591292/818b502d-b914-41f5-bd81-40eb8850630e">
+---
 
-- MyBatis
-  
-<img width="627" alt="mybatis" src="https://github.com/JIINSUNG/EnjoyTripBackEnd/assets/49591292/2aba7e7f-bce2-46e7-852b-b18be84ee2ff">
+## ✨ 주요 기능
 
-- MySQL
-  
-<img width="627" alt="mysql" src="https://github.com/JIINSUNG/EnjoyTripBackEnd/assets/49591292/968bb331-0d27-49e4-a448-92a3d44d849a">
+### 🗺️ 관광지 검색 및 탐색
+- 지역별, 카테고리별 관광지 검색
+- 카카오 맵 API를 활용한 위치 기반 검색
+- 관광지 상세 정보 및 사진 갤러리
+- 즐겨찾기 기능
 
-- Swagger
-  
-<img width="627" alt="swagger" src="https://github.com/JIINSUNG/EnjoyTripBackEnd/assets/49591292/10b50ed2-010b-4402-87ba-01db5906b860">
+### 📝 여행 계획
+- 드래그 앤 드롭으로 쉬운 일정 작성
+- 일자별 관광지 추가 및 관리
+- 여행 경로 지도 시각화
+- 계획 공유 및 저장
 
+### 💬 커뮤니티
+- 여행 후기 및 정보 공유
+- 카테고리별 게시판 (공지, 자유, 여행후기, 맛집)
+- 댓글 및 좋아요 기능
+- 베스트 게시글 추천
+- 실시간 챗봇 지원 (Channel Talk)
 
-### 형상관리, 협업 툴
-Git, GitLab (형상관리)
+### 🔍 부가 서비스
+- 날씨 정보 조회
+- 전기차 충전소 위치 검색
+- 관광지 사진 갤러리
+- 핫플레이스 추천
 
-<img width="627" alt="ssafygitlab" src="https://github.com/JIINSUNG/EnjoyTripBackEnd/assets/49591292/574d2df2-dd52-4ac7-83c6-e2386520fa70">
+### 👤 회원 관리
+- JWT 기반 인증/인가
+- 프로필 이미지 업로드
+- 마이페이지
+- 관리자 페이지 (회원 관리)
 
-Matter Most (소통 및 자료 공유) 
+---
 
-<img width="248" alt="mattermost" src="https://github.com/JIINSUNG/EnjoyTripBackEnd/assets/49591292/27ae925c-cba0-4139-9c30-8fc740cbf510">
+## 🛠️ 기술 스택
 
+### Frontend
 
+| 기술 | 버전 | 용도 |
+|------|------|------|
+| Vue.js | 3.3.4 | UI 프레임워크 |
+| Vite | 4.4.11 | 빌드 도구 |
+| Pinia | 2.1.7 | 상태 관리 |
+| Vue Router | 4.2.5 | 라우팅 |
+| Axios | 1.6.1 | HTTP 클라이언트 |
+| TailwindCSS | 3.3.5 | CSS 프레임워크 |
+| Ant Design Vue | 4.0.7 | UI 컴포넌트 |
+| Vuetify | 3.4.1 | Material UI |
+| MSW | Latest | API 모킹 |
 
+### Backend
 
+| 기술 | 용도 |
+|------|------|
+| Spring Boot | 백엔드 프레임워크 |
+| MyBatis | ORM |
+| MySQL | 데이터베이스 |
+| Swagger | API 문서화 |
+| JWT | 인증/인가 |
 
-### 사용 API, 라이브러리
-tour api를 통한 관광 데이터 이용 
+### 협업 도구
 
-<img width="248" alt="tourapi" src="https://github.com/JIINSUNG/EnjoyTripBackEnd/assets/49591292/c85d72c3-c3cc-46f6-b001-5bcf56908339">
+- **형상 관리**: Git, GitLab
+- **커뮤니케이션**: Mattermost
+- **API 설계**: Swagger
 
-imgbb를 통한 사용자 프로필 및 게시판 사진 업로드 
+---
 
-<img width="107" alt="imgbb" src="https://github.com/JIINSUNG/EnjoyTripBackEnd/assets/49591292/07a19395-3afa-4083-addf-838fa951e638">
+## 📦 설치 및 실행
 
-공공데이터 포털을 동안 관광 데이터 이용 
+### 필수 요구사항
 
-<img width="228" alt="공공데이터" src="https://github.com/JIINSUNG/EnjoyTripBackEnd/assets/49591292/be7e17c6-d753-4cc6-93dd-286d57f4afbd">
+- Node.js 18 이상
+- npm 또는 yarn
 
-채널톡을 이용한 챗봇 서비스 탑재
+### 설치 방법
 
-<img width="228" alt="챗봇" src="https://github.com/JIINSUNG/EnjoyTripBackEnd/assets/49591292/44e2540b-f631-40d5-b53a-b37d93a866f7">
+```bash
+# 저장소 클론
+git clone https://github.com/JIINSUNG/EnjoyTripFrontEnd.git
+cd EnjoyTripFrontEnd
 
+# 의존성 설치
+npm install
+# 또는
+yarn install
+```
 
-기상청 단기예보 서비스
-http://apis.data.go.kr/1360000/VilageFcstInfoService_2.0
+### 환경 변수 설정
 
-한국전력공사 전기차충전소 운영정보
-https://infuser.odcloud.kr/api/stages/38249/api-docs?1653531202059
+프로젝트 루트에 `.env` 파일을 생성하고 다음 내용을 추가하세요:
 
-한국관광공사 관광사진 정보
-http://apis.data.go.kr/B551011/PhotoGalleryService1
+```env
+VITE_VUE_API_URL=http://localhost:8080/enjoytrip
+VITE_PUBLIC_API=your_public_api_key
+VITE_KAKAO_MAP_KEY=your_kakao_map_key
+VITE_IMGBB_API=your_imgbb_api_key
+VITE_CHATBOT_PLUGIN_KEY=your_channel_talk_key
+```
 
-한국관광공사 관광정보 서비스
-http://apis.data.go.kr/B551011/KorService1
+### 개발 서버 실행
 
-전국문화축제 표준 데이터
-[http://api.data.go.kr/openapi/tn_pubr_public_cltur_fstvl_api](https://www.data.go.kr/iim/api/selectAPIAcountView.do)
+```bash
+# 개발 서버 시작 (포트: 9000)
+npm run dev
+# 또는
+yarn dev
+```
 
-전국관광지정보 표준데이터
-http://api.data.go.kr/openapi/tn_pubr_public_trrsrt_api
+브라우저에서 `http://localhost:9000` 접속
 
+### Mock 데이터로 실행
 
-#### 유스케이스 다이어그램
-<img width="1047" alt="메인화면" src="https://github.com/JIINSUNG/EnjoyTripFrontEnd/assets/49591292/2056ccae-1004-4cf1-9b73-914ab13356da">
+백엔드 서버 없이 MSW를 사용하여 Mock 데이터로 테스트할 수 있습니다:
 
-<img width="1047" alt="게시판" src="https://github.com/JIINSUNG/EnjoyTripFrontEnd/assets/49591292/5fc84826-a1c1-4dc1-802e-1989f1b8d388">
+```bash
+npm run dev
+```
 
-<img width="1047" alt="여행계획" src="https://github.com/JIINSUNG/EnjoyTripFrontEnd/assets/49591292/9584acab-32a8-4eeb-9449-3ec87ab2a8ab">
+개발 환경에서 자동으로 MSW가 활성화되어 Mock API를 사용합니다.
 
-<img width="1047" alt="기본관리" src="https://github.com/JIINSUNG/EnjoyTripFrontEnd/assets/49591292/c642630e-10b0-4fc3-9b55-59088de77c71">
+### 빌드
 
-#### ERD 다이어그램 
-<img width="1047" alt="테이블구조도" src="https://github.com/JIINSUNG/EnjoyTripFrontEnd/assets/49591292/14af143e-b734-4cc7-a343-69cb16d2bcc5">
+```bash
+# 프로덕션 빌드
+npm run build
 
-#### 클래스다이어그램
-<img width="1047" alt="클래스다이어그램" src="https://github.com/JIINSUNG/EnjoyTripFrontEnd/assets/49591292/1954ab49-aae4-476e-9e3c-63ea029834f0">
+# 빌드 미리보기
+npm run preview
+```
 
+---
 
-#### 요구사항 명세서
-<img width="1047" alt="화면설계서1" src="https://github.com/JIINSUNG/EnjoyTripFrontEnd/assets/49591292/aaf1d4d2-e1aa-4ace-b883-32f506453af9">
+## 📁 프로젝트 구조
 
-<img width="1047" alt="화면설계서2" src="https://github.com/JIINSUNG/EnjoyTripFrontEnd/assets/49591292/c7e9e49f-8d52-492f-b9cb-0be9a1ed78b6">
+```
+EnjoyTripFrontEnd/
+├── public/                 # 정적 파일
+├── src/
+│   ├── api/               # API 통신 모듈
+│   │   ├── member.js
+│   │   ├── board.js
+│   │   ├── attraction.js
+│   │   └── ...
+│   ├── assets/            # 이미지, 폰트 등
+│   ├── components/        # Vue 컴포넌트
+│   │   ├── board/        # 게시판 관련
+│   │   ├── member/       # 회원 관련
+│   │   ├── plan/         # 여행 계획 관련
+│   │   ├── attraction/   # 관광지 관련
+│   │   └── layout/       # 레이아웃
+│   ├── mocks/            # MSW Mock 데이터
+│   │   ├── data/
+│   │   ├── handlers.js
+│   │   └── browser.js
+│   ├── router/           # 라우터 설정
+│   ├── stores/           # Pinia 스토어
+│   ├── utils/            # 유틸리티 함수
+│   ├── views/            # 페이지 컴포넌트
+│   ├── App.vue
+│   ├── main.js
+│   └── index.css
+├── .env                  # 환경 변수
+├── package.json
+└── vite.config.js
+```
 
-<img width="1047" alt="화면설계서3" src="https://github.com/JIINSUNG/EnjoyTripFrontEnd/assets/49591292/b02bdfef-26d1-48ad-a499-d63b9f203aa0">
+---
 
-#### 문의 
-- SSAFY 10기 지인성 crm03008@gmail.com 
+## 🌐 API 문서
 
+### 사용 API 및 라이브러리
+
+#### 공공 데이터 API
+
+| API | 용도 |
+|-----|------|
+| [한국관광공사 TourAPI](http://api.visitkorea.or.kr) | 관광 데이터 |
+| [공공데이터포털](https://www.data.go.kr) | 관광지/축제 정보 |
+| [기상청 단기예보 서비스](http://apis.data.go.kr/1360000/VilageFcstInfoService_2.0) | 날씨 정보 |
+| [한국전력공사 전기차충전소](https://infuser.odcloud.kr/api/stages/38249/api-docs) | 충전소 정보 |
+
+#### 외부 서비스
+
+| 서비스 | 용도 |
+|--------|------|
+| [ImgBB](https://imgbb.com) | 이미지 호스팅 |
+| [Channel Talk](https://channel.io) | 챗봇 서비스 |
+| [Kakao Map API](https://apis.map.kakao.com) | 지도 서비스 |
+
+---
+
+## 🎬 시연 영상
+
+### [📺 전체 시연 영상 보기](https://www.youtube.com/watch?v=XbaKYXYshVQ)
+
+#### 타임라인
+
+| 시간 | 내용 |
+|------|------|
+| 00:00 | 프로젝트 소개 |
+| 00:47 | 로그인, 회원가입 |
+| 01:20 | 메인화면 및 기능 간략 소개 |
+| 03:08 | 챗봇 |
+| 03:46 | 공지사항 |
+| 04:30 | 게시판 |
+| 05:18 | 게시판 접근제어 |
+| 05:40 | 댓글, 좋아요, 조회수 |
+| 06:16 | 글 작성 |
+| 07:10 | 카테고리별 글 검색 |
+| 07:25 | 베스트 글 보기 |
+| 07:50 | 관광지검색 |
+| 08:40 | 관광지 좋아요 |
+| 09:22 | 여행 계획 |
+| 11:25 | 여행 후기 |
+| 12:35 | 핫플레이스 |
+| 13:10 | 마이페이지 |
+| 14:30 | 어드민페이지 |
+| 15:54 | 날씨확인 |
+| 16:15 | 전기차충전소 |
+| 16:44 | 갤러리 기능 |
+| 18:40 | 404 페이지 |
+| 18:50 | 미로그인시 자동 리다이렉션 |
+
+---
+
+## 📊 시스템 설계
+
+### Use Case Diagram
+
+<details>
+<summary>메인 화면</summary>
+
+![메인화면](https://github.com/JIINSUNG/EnjoyTripFrontEnd/assets/49591292/2056ccae-1004-4cf1-9b73-914ab13356da)
+
+</details>
+
+<details>
+<summary>게시판</summary>
+
+![게시판](https://github.com/JIINSUNG/EnjoyTripFrontEnd/assets/49591292/5fc84826-a1c1-4dc1-802e-1989f1b8d388)
+
+</details>
+
+<details>
+<summary>여행 계획</summary>
+
+![여행계획](https://github.com/JIINSUNG/EnjoyTripFrontEnd/assets/49591292/9584acab-32a8-4eeb-9449-3ec87ab2a8ab)
+
+</details>
+
+<details>
+<summary>기본 관리</summary>
+
+![기본관리](https://github.com/JIINSUNG/EnjoyTripFrontEnd/assets/49591292/c642630e-10b0-4fc3-9b55-59088de77c71)
+
+</details>
+
+### ERD
+
+<details>
+<summary>데이터베이스 구조</summary>
+
+![ERD](https://github.com/JIINSUNG/EnjoyTripFrontEnd/assets/49591292/14af143e-b734-4cc7-a343-69cb16d2bcc5)
+
+</details>
+
+### Class Diagram
+
+<details>
+<summary>클래스 다이어그램</summary>
+
+![클래스다이어그램](https://github.com/JIINSUNG/EnjoyTripFrontEnd/assets/49591292/1954ab49-aae4-476e-9e3c-63ea029834f0)
+
+</details>
+
+---
+
+## 👥 팀원
+
+<div align="center">
+
+| 이름 | 역할 | GitHub | Email |
+|------|------|--------|-------|
+| 지인성 | 팀장, Frontend/Backend | [@JIINSUNG](https://github.com/JIINSUNG) | crm03008@gmail.com |
+| 양유경 | Frontend/Backend | - | - |
+
+</div>
+
+---
+
+## 📝 라이선스
+
+이 프로젝트는 SSAFY 10기 관통 프로젝트의 일환으로 제작되었습니다.
+
+---
+
+## 📮 문의
+
+프로젝트 관련 문의사항은 아래로 연락주시기 바랍니다.
+
+- **Email**: crm03008@gmail.com
+- **GitHub Issues**: [이슈 등록](https://github.com/JIINSUNG/EnjoyTripFrontEnd/issues)
+
+---
+
+<div align="center">
+
+**Made with ❤️ by SSAFY 10기**
+
+⭐ 이 프로젝트가 마음에 드셨다면 Star를 눌러주세요!
+
+</div>

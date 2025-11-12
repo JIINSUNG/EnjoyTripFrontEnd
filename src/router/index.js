@@ -54,6 +54,30 @@ const router = createRouter({
       ]
     },
     {
+      path: '/login',
+      name: 'member-login',
+      component: () => import('@/components/member/MemberLoginView.vue'),
+      beforeEnter: (to, from, next) => {
+        if (useMemberStore().isLogin) {
+          next('/home')
+        } else {
+          next()
+        }
+      }
+    },
+    {
+      path: '/register',
+      name: 'member-regist',
+      component: () => import('@/components/member/MemberRegisterView.vue'),
+      beforeEnter: (to, from, next) => {
+        if (useMemberStore().isLogin) {
+          next('/home')
+        } else {
+          next()
+        }
+      }
+    },
+    {
       path: '/home',
       name: 'home',
       component: TheHomeView,
@@ -85,11 +109,12 @@ const router = createRouter({
         }
       ]
     },
-    {
-      path: '/member/withdrawal',
-      name: 'member-withdrawal',
-      component: () => import('@/components/MemberWithdrawalView.vue')
-    },
+    // 회원 탈퇴 페이지는 마이페이지에서 처리
+    // {
+    //   path: '/member/withdrawal',
+    //   name: 'member-withdrawal',
+    //   component: () => import('@/components/MemberWithdrawalView.vue')
+    // },
     {
       path: '/estations',
       name: 'estations',
@@ -279,12 +304,13 @@ const router = createRouter({
           path: 'detail/:planId',
           name: 'plan-detail',
           component: () => import('@/components/plan/PlanDetailView.vue')
-        },
-        {
-          path: 'update/:planId',
-          name: 'plan-update',
-          component: () => import('@/components/plan/PlanUpdateView.vue')
         }
+        // 여행 계획 수정 기능은 추후 구현 예정
+        // {
+        //   path: 'update/:planId',
+        //   name: 'plan-update',
+        //   component: () => import('@/components/plan/PlanUpdateView.vue')
+        // }
       ]
     }
   ]

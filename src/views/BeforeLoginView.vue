@@ -1,510 +1,282 @@
 <script setup>
-import { ref } from 'vue'
-import { storeToRefs } from 'pinia'
+import { ref, onMounted } from 'vue'
 import { useRouter } from 'vue-router'
-import { useMemberStore } from '@/stores/member'
-import { onMounted } from 'vue'
-import { searchSido, searchGugun } from '@/api/attraction'
-import VSelect from '../components/common/VSelect.vue'
 
 const router = useRouter()
-const memberStore = useMemberStore()
 
-const { isLogin, userInfo } = storeToRefs(memberStore)
-const { userLogin, getUserInfo, userRegist } = memberStore
+const goToLogin = () => {
+  router.push({ name: 'member-login' })
+}
 
-const loginUser = ref({
-  memberId: '',
-  memberPassword: ''
-})
+const goToRegister = () => {
+  router.push({ name: 'member-regist' })
+}
 
-const sidoList = ref([])
-const gugunList = ref([{ text: '구/군 선택', value: 'all' }])
+// Bouncing animation trigger
+const bounceLetters = ref([])
+const text = 'TRIPOLINE'
 
 onMounted(() => {
-  getSidoList()
+  // Initialize bounce animation for each letter
+  bounceLetters.value = text.split('').map((letter, index) => ({
+    letter,
+    delay: index * 0.1
+  }))
 })
-
-const getSidoList = () => {
-  searchSido(
-    ({ data }) => {
-      let options = []
-      options.push({ text: '시/도 선택', value: 'all' })
-      data.sidos.forEach((sido) => {
-        options.push({ text: sido.sidoName, value: sido.sidoCode })
-      })
-      sidoList.value = options
-    },
-    (err) => {
-      console.log(err)
-    }
-  )
-}
-
-const onChangeSido = (val) => {
-  User.value.sidoCode = val
-  searchGugun(
-    { sidoCode: val },
-    ({ data }) => {
-      let options = []
-      options.push({ text: '구/군 선택', value: 'all' })
-      data.guguns.forEach((gugun) => {
-        options.push({ text: gugun.gugunName, value: gugun.gugunCode })
-      })
-      gugunList.value = options
-    },
-    (err) => {
-      console.log(err)
-    }
-  )
-}
-
-const onChangeGugun = (val) => {
-  User.value.gugunCode = val
-}
-
-const date = ref()
-
-const User = ref({
-  memberId: '',
-  memberPassword: '',
-  memberName: '',
-  memberEmail: '',
-  sidoCode: 0,
-  gugunCode: 0,
-  memberBirthdate: '',
-  memberGender: '',
-  memberPhone: '',
-  memberRole: 1
-})
-
-const login = async () => {
-  console.log('login ing!!!! !!!')
-
-  await userLogin(loginUser.value)
-
-  let token = sessionStorage.getItem('accessToken')
-  await getUserInfo(token)
-  router.push('/home')
-}
-
-const regist = async () => {
-  // 정보가 없으면 진행하지 않는다
-  if (User.value.memberId === '') {
-    alert('아이디를 입력해주세요')
-    return
-  }
-  if (User.value.memberPassword === '') {
-    alert('비밀번호를 입력해주세요')
-    return
-  }
-  if (User.value.memberName === '') {
-    alert('닉네임을 입력해주세요')
-    return
-  }
-  if (User.value.memberEmail === '') {
-    alert('이메일을 입력해주세요')
-    return
-  }
-  if (User.value.memberGender === '') {
-    alert('성별을 입력해주세요')
-    return
-  }
-  if (User.value.memberPhone === '') {
-    alert('전화번호를 입력해주세요')
-    return
-  }
-
-  if (User.value.memberBirthdate === '') {
-    alert('생년월일을 선택해주세요')
-    return
-  } else {
-    await userRegist(User.value)
-    alert('정상 등록 완료')
-    router.go(0)
-  }
-}
-
-const handleDatePickerChange = (date) => {
-  User.value.memberBirthdate = date
-}
-
-const loginshow = ref(false)
-const signupshow = ref(false)
 </script>
 
 <template>
   <div
-    class="relative flex flex-col w-full h-full bg-stone-300"
-    v-motion
-    :initial="{ opacity: 0, y: 100 }"
-    :enter="{ opacity: 1, y: 0, scale: 1 }"
+    class="min-h-screen bg-gradient-to-br from-indigo-500 via-purple-500 to-pink-500 relative overflow-hidden"
   >
-    <div class="relative flex flex-col w-full top-1/3 items-center justify-start h-[100px]">
-      <Transition :duration="550" name="nested">
-        <div class="flex justify-center items-center" v-if="!loginshow && !signupshow">
-          <h1 class="title">
-            <span class="title-item">T</span>
-            <span class="title-item">R</span>
-            <span class="title-item">I</span>
-            <span class="title-item">P</span>
-            <span class="title-item">O</span>
-            <span class="title-item">L</span>
-            <span class="title-item">I</span>
-            <span class="title-item">N</span>
-            <span class="title-item">E</span>
-          </h1>
-          <img src="@/assets/T-rex.png" alt="logo" />
-        </div>
-      </Transition>
+    <!-- Animated Background -->
+    <div class="absolute inset-0">
+      <div
+        class="absolute top-20 left-20 w-72 h-72 bg-white/10 rounded-full blur-3xl animate-float"
+      ></div>
+      <div
+        class="absolute bottom-20 right-20 w-96 h-96 bg-white/10 rounded-full blur-3xl animate-float-delayed"
+      ></div>
+      <div
+        class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-64 h-64 bg-white/5 rounded-full blur-2xl animate-pulse"
+      ></div>
     </div>
-    <div class="relative top-1/2 flex w-full justify-center items-center h-[50px]">
-      <button
-        class="bg-blue-500 hover:bg-blue-700 w-[200px] text-black font-bold py-2 px-4 rounded mr-2"
-        @click="loginshow = !loginshow"
-        @keydown.enter.prevent
-        type="button"
-      >
-        로그인
-      </button>
 
-      <Transition class="w-[500px] h-[500px] bg-white rounded" :duration="250" name="nested">
-        <form
-          class="absolute p-[50px] flex flex-col justify-evenly"
-          v-show="loginshow"
-          @submit.prevent="login"
-        >
-          <div
-            class="absolute right-[15px] top-[15px] cursor-pointer"
-            @click="loginshow = !loginshow"
+    <!-- Main Content -->
+    <div class="relative z-10 flex flex-col items-center justify-center min-h-screen px-4">
+      <!-- Trampoline Container -->
+      <div class="mb-12">
+        <!-- Bouncing Letters on Trampoline -->
+        <div class="flex items-end gap-1 mb-8">
+          <span
+            v-for="(item, index) in bounceLetters"
+            :key="index"
+            class="bounce-letter text-7xl font-bold text-white"
+            :style="{ animationDelay: `${item.delay}s` }"
           >
-            <button class="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded-full">
-              X
-            </button>
-          </div>
-          <div class="flex flex-row justify-between items-center">
-            <img src="@/assets/T-rex.png" width="80" alt="logo" style="transform: scaleX(-1)" />
-            <h1 class="text-center text-2xl">로그인</h1>
-            <img src="@/assets/T-rex.png" width="80" alt="logo" />
-          </div>
+            {{ item.letter }}
+          </span>
+        </div>
 
-          <input
-            class="rounded"
-            type="text"
-            :memberId="loginUser.memberId"
-            @change="loginUser.memberId = $event.target.value"
-            placeholder="아이디를 입력해주세요"
-            required
-          />
-          <input
-            class="rounded"
-            type="password"
-            :memberPassword="loginUser.memberPassword"
-            @change="loginUser.memberPassword = $event.target.value"
-            placeholder="비밀번호를 입력해주세요"
-            required
-          />
-          <button type="button" class="login w-full" @click.prevent="login">로그인</button>
+        <!-- Trampoline -->
+        <div class="trampoline-container flex justify-center">
+          <svg width="600" height="80" viewBox="0 0 600 80" class="trampoline">
+            <!-- Trampoline Springs -->
+            <g class="springs">
+              <line x1="50" y1="60" x2="50" y2="80" stroke="white" stroke-width="3" opacity="0.6" />
+              <line
+                x1="150"
+                y1="60"
+                x2="150"
+                y2="80"
+                stroke="white"
+                stroke-width="3"
+                opacity="0.6"
+              />
+              <line
+                x1="250"
+                y1="60"
+                x2="250"
+                y2="80"
+                stroke="white"
+                stroke-width="3"
+                opacity="0.6"
+              />
+              <line
+                x1="350"
+                y1="60"
+                x2="350"
+                y2="80"
+                stroke="white"
+                stroke-width="3"
+                opacity="0.6"
+              />
+              <line
+                x1="450"
+                y1="60"
+                x2="450"
+                y2="80"
+                stroke="white"
+                stroke-width="3"
+                opacity="0.6"
+              />
+              <line
+                x1="550"
+                y1="60"
+                x2="550"
+                y2="80"
+                stroke="white"
+                stroke-width="3"
+                opacity="0.6"
+              />
+            </g>
+            <!-- Trampoline Surface -->
+            <path
+              d="M 20 60 Q 300 40 580 60"
+              fill="none"
+              stroke="white"
+              stroke-width="6"
+              class="trampoline-surface"
+            />
+            <path d="M 20 60 Q 300 45 580 60" fill="rgba(255,255,255,0.1)" stroke="none" />
+          </svg>
+        </div>
+      </div>
 
-          <a href="#">비밀번호가 기억이 안나나요?</a>
-          <hr />
-        </form>
-      </Transition>
-      <button
-        class="bg-stone-500 hover:bg-white w-[200px] text-black font-bold py-2 px-4 rounded mr-2"
-        @click="signupshow = !signupshow"
-        @keydown.enter.prevent
+      <!-- Welcome Text -->
+      <div class="text-center mb-12">
+        <h2 class="text-3xl font-bold text-white mb-4 animate-fade-in">여행이 함께하는 곳</h2>
+        <p class="text-xl text-white/90 animate-fade-in-delayed">새로운 여행을 경험해보세요</p>
+      </div>
+
+      <!-- Action Buttons -->
+      <div class="flex gap-6 animate-fade-in-more-delayed">
+        <button
+          @click="goToLogin"
+          class="group relative px-8 py-4 bg-white text-indigo-600 rounded-2xl font-bold text-lg hover:scale-105 transition-transform shadow-2xl overflow-hidden min-w-[160px] flex items-center justify-center text-center"
+        >
+          <span class="relative z-10 flex items-center justify-center gap-2">
+            <span>로그인</span>
+          </span>
+        </button>
+
+        <button
+          @click="goToRegister"
+          class="group relative px-8 py-4 bg-white/20 backdrop-blur-sm text-white rounded-2xl font-bold text-lg hover:scale-105 transition-transform shadow-2xl border-2 border-white/40 overflow-hidden min-w-[160px] flex items-center justify-center"
+        >
+          <span class="relative z-10 flex items-center justify-center gap-2">
+            <i class="bx bx-user-plus text-2xl"></i>
+            <span>회원가입</span>
+          </span>
+          <div
+            class="absolute inset-0 bg-white opacity-0 group-hover:opacity-100 transition-opacity"
+          ></div>
+          <span
+            class="absolute inset-0 flex items-center justify-center gap-2 opacity-0 group-hover:opacity-100 text-indigo-600 font-bold transition-opacity z-20"
+          >
+            <i class="bx bx-user-plus text-2xl"></i>
+            <span>회원가입</span>
+          </span>
+        </button>
+      </div>
+
+      <!-- Features -->
+      <div
+        class="mt-16 grid grid-cols-1 md:grid-cols-3 gap-6 max-w-4xl w-full animate-fade-in-last"
       >
-        회원가입
-      </button>
-      <Transition class="flex flex-col flex-1 rounded bg-white" :duration="250" name="nested">
-        <form class="absolute bg-white rounded shadow-lg p-4 px-4 md:p-8 mb-6" v-if="signupshow">
-          <div class="grid gap-4 gap-y-2 text-3xl grid-cols-1 lg:grid-cols-3">
-            <div class="text-gray-600">
-              <p class="font-medium text-lg">회원 가입 시작하기</p>
-              <p>회원 정보를 입력 후 트리폴린을 시작해보세요</p>
-              <img src="@/assets/T-rex.png" alt="logo" style="transform: scaleX(-1)" />
-            </div>
-
-            <div class="lg:col-span-2">
-              <div class="grid gap-4 gap-y-2 text-sm grid-cols-1 md:grid-cols-5">
-                <div class="md:col-span-5">
-                  <label for="id">아이디를 입력해주세요 </label>
-                  <input
-                    name="id"
-                    type="text"
-                    :memberId="User.memberId"
-                    @change="(User.memberId = $event.target.value), checkId"
-                    placeholder="아이디를 입력해주세요"
-                    required
-                    class="h-10 border mt-1 rounded px-4 w-full bg-gray-50"
-                  />
-                </div>
-                <div class="md:col-span-5">
-                  <label for="name">닉네임을 입력해주세요</label>
-                  <input
-                    type="text"
-                    name="name"
-                    id="name"
-                    class="h-10 border mt-1 rounded px-4 w-full bg-gray-50"
-                    :memberName="User.memberName"
-                    @change="User.memberName = $event.target.value"
-                    placeholder="닉네임 입력해주세요"
-                  />
-                </div>
-
-                <div class="md:col-span-5">
-                  <label for="password">비밀번호 입력</label>
-                  <input
-                    type="password"
-                    name="password"
-                    id="password"
-                    placeholder="사용할 비밀번호 입력"
-                    :memberPassword="User.memberPassword"
-                    @change="User.memberPassword = $event.target.value"
-                    class="h-10 border mt-1 rounded px-4 w-full bg-gray-50"
-                    value=""
-                  />
-                </div>
-
-                <div class="md:col-span-5">
-                  <label for="email">이메일을 입력해주세요</label>
-                  <input
-                    type="email"
-                    name="email"
-                    id="email"
-                    :memberEmail="User.memberEmail"
-                    @change="User.memberEmail = $event.target.value"
-                    placeholder="이메일을 입력해주세요"
-                    class="h-10 border mt-1 rounded px-4 w-full bg-gray-50"
-                    required
-                  />
-                </div>
-
-                <div class="md:col-span-5">
-                  <label for="email">생년월일 입력</label>
-                  <a-space direction="vertical" :size="12">
-                    <a-date-picker v-model:value="date" @change="handleDatePickerChange" />
-                  </a-space>
-                </div>
-                <div class="md:col-span-5">
-                  <label for="gender">성별 입력</label>
-                  <select
-                    name="gender"
-                    id="gender"
-                    v-model="User.memberGender"
-                    class="h-10 border mt-1 rounded px-4 w-full bg-gray-50"
-                    required
-                  >
-                    <option value="" disabled>성별 선택</option>
-                    <option value="M">남자</option>
-                    <option value="W">여자</option>
-                  </select>
-                </div>
-                <div class="md:col-span-5">
-                  <label for="email">전화번호 입력</label>
-                  <input
-                    type="phone"
-                    name="phone"
-                    id="phone"
-                    :memberEmail="User.memberPhone"
-                    @change="User.memberPhone = $event.target.value"
-                    placeholder="전화번호를 입력해주세요"
-                    class="h-10 border mt-1 rounded px-4 w-full bg-gray-50"
-                    required
-                  />
-                </div>
-                <!-- <label for="sido">
-              <select
-                class="rounded"
-                name="sido"
-                id="sido"
-                :sidoCode="User.sidoCode"
-                @change="User.sidoCode = $event.target.value"
-                required
-              >
-                <option value="0">시도코드</option>
-                <option value="1">강남</option>
-                <option value="2">경기</option>
-                <option value="3">서울</option>
-              </select>
-            </label>
-            <label for="gugun">
-              <select
-                class="rounded"
-                name="gugun"
-                id="gugun"
-                :gugunCode="User.gugunCode"
-                @change="User.gugunCode = $event.target.value"
-                required
-              >
-                <option value="">강남</option>
-                <option value="1">서울</option>
-                <option value="2">용인</option>
-                <option value="3">시도</option>
-              </select>
-            </label>
-          </div> -->
-                <div class="md:col-span-2">
-                  <label for="country">사는 지역(시도)</label>
-                  <VSelect :selectOption="sidoList" @onKeySelect="onChangeSido" />
-                </div>
-
-                <div class="md:col-span-2">
-                  <label for="state">사는지역(구군)</label>
-                  <VSelect :selectOption="gugunList" @onKeySelect="onChangeGugun" />
-                </div>
-
-                <div class="md:col-span-5 text-right">
-                  <div class="inline-flex items-end gap-[10px]">
-                    <button
-                      class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
-                      @click="regist"
-                      type="button"
-                    >
-                      회원가입
-                    </button>
-                    <button
-                      class="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded"
-                      @click="signupshow = !signupshow"
-                      type="button"
-                    >
-                      취소
-                    </button>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </form>
-      </Transition>
+        <div
+          class="bg-white/10 backdrop-blur-md rounded-2xl p-6 text-center hover:bg-white/20 transition-all border border-white/20"
+        >
+          <i class="bx bx-map text-5xl text-white mb-4"></i>
+          <h3 class="text-white font-bold text-lg mb-2">관광지 탐색</h3>
+          <p class="text-white/80 text-sm">전국의 다양한 관광지 검색</p>
+        </div>
+        <div
+          class="bg-white/10 backdrop-blur-md rounded-2xl p-6 text-center hover:bg-white/20 transition-all border border-white/20"
+        >
+          <i class="bx bx-calendar-heart text-5xl text-white mb-4"></i>
+          <h3 class="text-white font-bold text-lg mb-2">여행 계획</h3>
+          <p class="text-white/80 text-sm">나만의 특별한 여행 일정</p>
+        </div>
+        <div
+          class="bg-white/10 backdrop-blur-md rounded-2xl p-6 text-center hover:bg-white/20 transition-all border border-white/20"
+        >
+          <i class="bx bx-star text-5xl text-white mb-4"></i>
+          <h3 class="text-white font-bold text-lg mb-2">핫플레이스</h3>
+          <p class="text-white/80 text-sm">인기 여행지 확인 및 공유</p>
+        </div>
+      </div>
     </div>
   </div>
 </template>
 
 <style scoped>
-form input {
-  margin-top: 12px;
-  border-width: 1px;
-  border-color: black;
-  border-style: solid;
-  outline: none;
-  padding: 0.8rem 1rem;
-  margin-bottom: 0.8rem;
-  font-size: 1.1rem;
-}
-
-form input:focus {
-  border: 1.8px solid #1877f2;
-}
-
-.login {
-  outline: none;
-  border: none;
-  background: #1877f2;
-  padding: 0.8rem 1rem;
-  border-radius: 0.4rem;
-  font-size: 1.1rem;
-  color: #fff;
-}
-
-form .login:hover {
-  background: #0f71f1;
-  cursor: pointer;
-}
-
-form a {
-  text-decoration: none;
-  text-align: center;
-  font-size: 1rem;
-  padding-top: 0.8rem;
-  color: #1877f2;
-}
-
-form hr {
-  background: #f7f7f7;
-  margin: 1rem;
-}
-
-form .create-account {
-  outline: none;
-  border: none;
-  background: #06b909;
-  padding: 0.8rem 1rem;
-  border-radius: 0.4rem;
-  font-size: 1.1rem;
-  color: #fff;
-  width: 75%;
-  margin: 0 auto;
-}
-
-form .create-account:hover {
-  background: #03ad06;
-  cursor: pointer;
-}
-
-.nested-enter-active,
-.nested-leave-active {
-  transition: all 0.3s ease-in-out;
-}
-
-.nested-enter-from,
-.nested-leave-to {
-  transform: translateY(30px);
-  opacity: 0;
-}
-
-.nested-enter-active .inner,
-.nested-leave-active .inner {
-  transition: all 0.3s ease-in-out;
-}
-
-.nested-enter-from .inner,
-.nested-leave-to .inner {
-  transform: translateX(30px);
-  opacity: 0;
-}
-
-.title {
-  color: white;
-  font-size: 80px;
-  display: flex;
-  gap: 8px;
-}
-
-.title-item {
-  position: relative;
-
-  animation: bounce 0.8s ease infinite alternate;
-}
-.title-item:nth-child(2) {
-  animation-delay: 0.1s;
-}
-.title-item:nth-child(3) {
-  animation-delay: 0.2s;
-}
-.title-item:nth-child(4) {
-  animation-delay: 0.3s;
-}
-.title-item:nth-child(5) {
-  animation-delay: 0.4s;
-}
-.title-item:nth-child(6) {
-  animation-delay: 0.5s;
-}
-.title-item:nth-child(7) {
-  animation-delay: 0.6s;
-}
-.title-item:nth-child(8) {
-  animation-delay: 0.7s;
-}
-.title-item:nth-child(9) {
-  animation-delay: 0.8s;
-}
-
+/* Bouncing Letters Animation */
 @keyframes bounce {
+  0%,
   100% {
+    transform: translateY(0);
+  }
+  50% {
     transform: translateY(-40px);
   }
+}
+
+.bounce-letter {
+  display: inline-block;
+  animation: bounce 2s ease-in-out infinite;
+  text-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+}
+
+/* Trampoline Animation */
+@keyframes trampoline-bounce {
+  0%,
+  100% {
+    d: path('M 20 60 Q 300 40 580 60');
+  }
+  50% {
+    d: path('M 20 60 Q 300 50 580 60');
+  }
+}
+
+.trampoline-surface {
+  filter: drop-shadow(0 5px 15px rgba(255, 255, 255, 0.3));
+}
+
+/* Floating Background */
+@keyframes float {
+  0%,
+  100% {
+    transform: translate(0, 0);
+  }
+  50% {
+    transform: translate(20px, 20px);
+  }
+}
+
+@keyframes float-delayed {
+  0%,
+  100% {
+    transform: translate(0, 0);
+  }
+  50% {
+    transform: translate(-20px, -20px);
+  }
+}
+
+.animate-float {
+  animation: float 8s ease-in-out infinite;
+}
+
+.animate-float-delayed {
+  animation: float-delayed 10s ease-in-out infinite;
+}
+
+/* Fade In Animations */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.animate-fade-in {
+  animation: fadeIn 1s ease-out 0.5s both;
+}
+
+.animate-fade-in-delayed {
+  animation: fadeIn 1s ease-out 1s both;
+}
+
+.animate-fade-in-more-delayed {
+  animation: fadeIn 1s ease-out 1.5s both;
+}
+
+.animate-fade-in-last {
+  animation: fadeIn 1s ease-out 2s both;
 }
 </style>

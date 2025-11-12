@@ -1,96 +1,233 @@
 <script setup>
+import { ref, onMounted } from 'vue'
+import { useRouter } from 'vue-router'
+import { storeToRefs } from 'pinia'
+import { useMemberStore } from '@/stores/member'
 
-function showAlert(){
-  alert('기능 구현 예정')
+const router = useRouter()
+const memberStore = useMemberStore()
+const { isLogin, userInfo } = storeToRefs(memberStore)
+const { userLogin, getUserInfo } = memberStore
+
+const loginUser = ref({
+  memberId: '',
+  memberPassword: ''
+})
+
+const showPassword = ref(false)
+const rememberMe = ref(false)
+
+const login = async () => {
+  if (!loginUser.value.memberId) {
+    alert('아이디를 입력해주세요')
+    return
+  }
+  if (!loginUser.value.memberPassword) {
+    alert('비밀번호를 입력해주세요')
+    return
+  }
+
+  await userLogin(loginUser.value)
+
+  await new Promise((resolve) => setTimeout(resolve, 100))
+
+  let token = sessionStorage.getItem('accessToken')
+
+  if (token && token !== 'null' && token !== 'undefined') {
+    try {
+      await getUserInfo(token)
+      router.push('/home')
+    } catch (error) {
+      alert('로그인 처리 중 오류가 발생했습니다.')
+    }
+  } else {
+    alert('아이디 또는 비밀번호가 일치하지 않습니다.')
+  }
 }
+
+const closeModal = () => {
+  router.push('/')
+}
+
+onMounted(() => {
+  if (isLogin.value) {
+    router.push('/home')
+  }
+})
 </script>
 
 <template>
-  <div class="container-xxl vh-100">
-    <div
-      class="authentication-wrapper authentication-basic container-p-y position-absolute top-50 start-50 translate-middle"
-      style="width: 800px"
-    >
-      <div class="authentication-inner">
-        <!-- Register -->
-        <div class="card">
-          <div class="card-body">
-            <!-- Logo -->
-            <div class="app-brand justify-content-center">
-              <a href="${root}/index.jsp" class="app-brand-link gap-2">
-                <span class="app-brand-logo demo">
-                  <img src="@/assets/flight.png" alt="브랜드로고" :style="{width : '100px'}"/>
-                </span>
-              </a>
+  <div
+    class="min-h-screen bg-gradient-to-br from-indigo-500 via-purple-500 to-pink-500 flex items-center justify-center p-4 relative overflow-hidden"
+  >
+    <!-- Animated Background Elements -->
+    <div class="absolute inset-0 overflow-hidden">
+      <div
+        class="absolute -top-1/2 -left-1/2 w-96 h-96 bg-white/10 rounded-full blur-3xl animate-pulse"
+      ></div>
+      <div
+        class="absolute -bottom-1/2 -right-1/2 w-96 h-96 bg-white/10 rounded-full blur-3xl animate-pulse delay-1000"
+      ></div>
+    </div>
+
+    <div class="w-full max-w-md relative z-10">
+      <!-- Card -->
+      <div
+        class="bg-white/95 backdrop-blur-lg rounded-3xl shadow-2xl p-8 border border-white/20 relative"
+      >
+        <!-- Close Button -->
+        <button
+          @click="closeModal"
+          class="absolute top-4 right-4 w-10 h-10 flex items-center justify-center rounded-full hover:bg-gray-100 transition-colors text-gray-400 hover:text-gray-600"
+        >
+          <i class="bx bx-x text-3xl"></i>
+        </button>
+
+        <!-- Logo with glow effect -->
+        <div class="flex justify-center mb-6">
+          <RouterLink to="/" class="inline-block relative">
+            <div
+              class="absolute inset-0 bg-gradient-to-r from-indigo-500 to-purple-500 rounded-full blur-xl opacity-50"
+            ></div>
+            <img
+              src="@/assets/flight.png"
+              alt="Enjoy Trip"
+              class="w-24 h-24 object-contain relative z-10"
+            />
+          </RouterLink>
+        </div>
+
+        <!-- Title with gradient -->
+        <div class="text-center mb-8">
+          <h2
+            class="text-3xl font-bold mb-2 bg-gradient-to-r from-indigo-600 to-purple-600 bg-clip-text text-transparent"
+          >
+            환영합니다
+          </h2>
+          <p class="text-gray-600 text-sm">여행이 함께하는 곳, 새로운 여행을 경험해보세요</p>
+        </div>
+
+        <!-- Form -->
+        <form @submit.prevent="login" class="space-y-5">
+          <!-- ID with icon -->
+          <div>
+            <label
+              for="userid"
+              class="block text-sm font-semibold text-gray-700 mb-2 flex items-center gap-2"
+            >
+              <i class="bx bx-user text-indigo-500"></i>
+              아이디
+            </label>
+            <input
+              type="text"
+              id="userid"
+              v-model="loginUser.memberId"
+              class="border w-full px-4 py-3 bg-gray-50 border-gray-300 rounded-xl focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 focus:bg-white transition-all outline-none"
+              placeholder="아이디를 입력해주세요"
+              autofocus
+            />
+          </div>
+
+          <!-- Password with icon -->
+          <div>
+            <label
+              for="userpwd"
+              class="block text-sm font-semibold text-gray-700 mb-2 flex items-center gap-2"
+            >
+              <i class="bx bx-lock-alt text-indigo-500"></i>
+              비밀번호
+            </label>
+            <div class="relative">
+              <input
+                :type="showPassword ? 'text' : 'password'"
+                id="userpwd"
+                v-model="loginUser.memberPassword"
+                class="border w-full px-4 py-3 pr-12 bg-gray-50 border-2 border-gray-300 rounded-xl focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 focus:bg-white transition-all outline-none"
+                placeholder="비밀번호를 입력해주세요"
+              />
+              <button
+                type="button"
+                @click="showPassword = !showPassword"
+                class="absolute right-4 top-1/2 -translate-y-1/2 text-gray-400 hover:text-indigo-500 transition-colors"
+              >
+                <i :class="showPassword ? 'bx bx-show text-xl' : 'bx bx-hide text-xl'"></i>
+              </button>
             </div>
-            <!-- /Logo -->
-            <h4 class="mb-2">Enjoy Trip에 오신걸 환영합니다 👋</h4>
-            <p class="mb-4">여행이 함께하는 곳, 새로운 여행을 경험해보세요</p>
+          </div>
 
-            <form id="form-login" class="mb-3" method="POST" action="">
-              <input type="hidden" name="action" value="login" />
-              <div class="mb-3">
-                <label for="userid" class="form-label">사용자 아이디를 입력해주세요</label>
-                <input
-                  type="text"
-                  class="form-control"
-                  id="userid"
-                  name="userid"
-                  placeholder="아이디를 입력해주세요"
-                  value=""
-                  autofocus
-                />
-              </div>
-              <div class="mb-3 form-password-toggle">
-                <div class="d-flex justify-content-between">
-                  <label class="form-label" for="userpwd">비밀번호</label>
-                  <a href="#" @click="showAlert">
-                    <small>비밀번호가 기억이 안나시나요?</small>
-                  </a>
-                </div>
-                <div class="input-group input-group-merge">
-                  <input
-                    type="password"
-                    id="userpwd"
-                    class="form-control"
-                    name="userpwd"
-                    placeholder="비밀번호를 입력해주세요"
-                    aria-describedby="password"
-                  />
-                  <span class="input-group-text cursor-pointer"><i class="bx bx-hide"></i></span>
-                </div>
-              </div>
-              <div class="mb-3">
-                <div class="form-check">
-                  <input
-                    class="form-check-input"
-                    type="checkbox"
-                    id="saveid"
-                    value="ok"
-                    name="saveid"
-                  />
-                  <label class="form-check-label" for="saveid"> 아이디 기억하기 </label>
-                </div>
-              </div>
-              <div class="mb-3">
-                <button class="btn btn-primary d-grid w-100" id="btn-login" type="button" @click="showAlert">
-                  로그인
-                </button>
-              </div>
-            </form>
+          <!-- Remember Me -->
+          <div class="flex items-center">
+            <input
+              type="checkbox"
+              id="saveid"
+              v-model="rememberMe"
+              class="w-4 h-4 text-indigo-600 bg-gray-100 border-gray-300 rounded focus:ring-indigo-500 focus:ring-2"
+            />
+            <label for="saveid" class="ml-2 text-sm text-gray-600 font-medium">
+              아이디 기억하기
+            </label>
+          </div>
 
-            <p class="text-center">
-              <span>Enjoy Trip이 처음이세요?</span>
-              <RouterLink :to="{name : 'member-regist'}">
-                <span>회원 가입 하러 가기</span>
-              </RouterLink>
-            </p>
+          <!-- Submit Button with gradient -->
+          <button
+            type="submit"
+            class="w-full bg-gradient-to-r from-indigo-600 to-purple-600 text-white py-3.5 rounded-xl font-semibold hover:from-indigo-700 hover:to-purple-700 focus:outline-none focus:ring-4 focus:ring-indigo-300 transition-all transform hover:scale-[1.02] shadow-lg hover:shadow-xl"
+          >
+            로그인하기
+          </button>
+        </form>
+
+        <div class="flex flex-col justify-center py-2">
+          <div class="relative flex justify-center text-sm">
+            <span class="px-4 text-gray-500">또는</span>
           </div>
         </div>
-        <!-- /Register -->
+        <!-- Register Link with gradient button -->
+        <RouterLink
+          :to="{ name: 'member-regist' }"
+          class="block w-full text-center py-3 rounded-xl font-semibold border-2 border-gray-200 text-gray-700 hover:border-indigo-500 hover:text-indigo-600 transition-all"
+        >
+          회원가입하기
+        </RouterLink>
+      </div>
+
+      <!-- Demo Account Info -->
+      <div
+        class="mt-4 p-4 bg-white/90 backdrop-blur-sm rounded-2xl border border-white/40 shadow-lg"
+      >
+        <div class="flex flex-col items-center justify-center gap-2 text-sm">
+          <i class="bx bx-info-circle text-indigo-500"></i>
+          <p class="text-gray-700">
+            <strong class="text-indigo-600">어드민 데모 계정:</strong> admin / password123
+          </p>
+          <p class="text-gray-700">
+            <strong class="text-indigo-600">유저 데모 계정:</strong> user1 / password123
+          </p>
+          <p class="text-gray-700">
+            <strong class="text-indigo-600">유저 데모 계정:</strong> user2 / password123
+          </p>
+        </div>
       </div>
     </div>
   </div>
 </template>
 
-<style scoped></style>
+<style scoped>
+@keyframes pulse {
+  0%,
+  100% {
+    opacity: 0.5;
+  }
+  50% {
+    opacity: 0.8;
+  }
+}
+
+.animate-pulse {
+  animation: pulse 4s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+}
+
+.delay-1000 {
+  animation-delay: 1s;
+}
+</style>

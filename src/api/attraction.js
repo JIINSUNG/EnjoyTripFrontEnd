@@ -1,15 +1,14 @@
 // API 통신 모아놓기
 import { localAxios, publicAxios } from '@/utils/http-commons'
-const { VITE_PUBLIC_API } = import.meta.env
+const { VITE_PUBLIC_API_ENCODED } = import.meta.env
 const local = localAxios()
 const publicAPI = publicAxios()
 
 // 행사정보 조회
 function searchAttraction(categoryId, pageNo, success, fail) {
-  console.log(`searchAttraction 호출.......${categoryId}, ${pageNo}`)
   publicAPI
     .get(
-      `areaBasedList1?MobileOS=ETC&MobileApp=TRIPOLINE&_type=json&numOfRows=30&pageNo=${pageNo}&contentTypeId=${categoryId}&serviceKey=${VITE_PUBLIC_API}`
+      `areaBasedList1?MobileOS=ETC&MobileApp=TRIPOLINE&_type=json&numOfRows=30&pageNo=${pageNo}&contentTypeId=${categoryId}&serviceKey=${VITE_PUBLIC_API_ENCODED}`
     )
     .then(success)
     .catch(fail)
