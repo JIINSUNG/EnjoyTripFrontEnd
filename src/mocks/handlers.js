@@ -169,7 +169,8 @@ export const handlers = [
     await delay(200)
     const board = boards.find(b => b.articleId === parseInt(params.articleId))
     if (board) {
-      board.hit += 1
+      board.viewCount = (board.viewCount || 0) + 1
+      console.log(`[MSW] 게시글 조회 - ID: ${params.articleId}, 조회수: ${board.viewCount}`)
       return HttpResponse.json(board)
     }
     return HttpResponse.json({ message: '게시글을 찾을 수 없습니다' }, { status: 404 })
@@ -179,14 +180,21 @@ export const handlers = [
   http.post(`${BASE_URL}/boardRest`, async ({ request }) => {
     await delay(300)
     const newArticle = await request.json()
+
+    // 게시글 ID를 기존 게시글 중 최대값 + 1로 설정
+    const maxId = boards.length > 0
+      ? Math.max(...boards.map(b => b.articleId))
+      : 0
+
     const article = {
       ...newArticle,
-      articleId: boards.length + 1,
-      hit: 0,
+      articleId: maxId + 1,
+      viewCount: 0,
       likeCount: 0,
       registerTime: new Date().toISOString().split('T')[0]
     }
     boards.push(article)
+    console.log('[MSW] 게시글 작성 완료:', article)
     return HttpResponse.json(article, { status: 201 })
   }),
 
@@ -225,7 +233,9 @@ export const handlers = [
   // 댓글 목록 조회
   http.get(`${BASE_URL}/boardRest/comments/:articleId`, async ({ params }) => {
     await delay(200)
-    const articleComments = comments.filter(c => c.articleId === parseInt(params.articleId))
+    const articleId = parseInt(params.articleId)
+    const articleComments = comments.filter(c => c.articleId === articleId)
+    console.log(`[MSW] 댓글 목록 조회 - 게시글 ID: ${articleId}, 댓글 수: ${articleComments.length}`)
     return HttpResponse.json(articleComments)
   }),
 
@@ -233,12 +243,22 @@ export const handlers = [
   http.post(`${BASE_URL}/boardRest/comments`, async ({ request }) => {
     await delay(300)
     const newComment = await request.json()
+
+    // 댓글 ID를 기존 댓글 중 최대값 + 1로 설정
+    const maxId = comments.length > 0
+      ? Math.max(...comments.map(c => c.commentId))
+      : 0
+
     const comment = {
       ...newComment,
-      commentId: comments.length + 1,
-      registerTime: new Date().toISOString().split('T')[0]
+      commentId: maxId + 1,
+      registerTime: new Date().toISOString().split('T')[0],
+      parentCommentId: newComment.parentCommentId || null,
+      profileImage: newComment.profileImage || 'https://i.pravatar.cc/150?img=5'
     }
+
     comments.push(comment)
+    console.log('[MSW] 댓글 작성 완료:', comment)
     return HttpResponse.json(comment, { status: 201 })
   }),
 
@@ -249,16 +269,28 @@ export const handlers = [
     const index = comments.findIndex(c => c.commentId === updatedComment.commentId)
     if (index !== -1) {
       comments[index] = { ...comments[index], ...updatedComment }
+      console.log('[MSW] 댓글 수정 완료:', comments[index])
       return HttpResponse.json(comments[index])
     }
+    console.log('[MSW] 댓글 수정 실패 - 댓글을 찾을 수 없음:', updatedComment.commentId)
     return HttpResponse.json({ message: '댓글을 찾을 수 없습니다' }, { status: 404 })
   }),
 
   // 댓글 삭제
   http.delete(`${BASE_URL}/boardRest/comments/:commentId`, async ({ params }) => {
     await delay(300)
-    comments = comments.filter(c => c.commentId !== parseInt(params.commentId))
-    return HttpResponse.json({ message: '댓글 삭제 성공' })
+    const commentId = parseInt(params.commentId)
+    const beforeLength = comments.length
+    comments = comments.filter(c => c.commentId !== commentId)
+    const afterLength = comments.length
+
+    if (beforeLength > afterLength) {
+      console.log(`[MSW] 댓글 삭제 완료 - ID: ${commentId}`)
+      return HttpResponse.json({ message: '댓글 삭제 성공' })
+    } else {
+      console.log(`[MSW] 댓글 삭제 실패 - 댓글을 찾을 수 없음: ${commentId}`)
+      return HttpResponse.json({ message: '댓글을 찾을 수 없습니다' }, { status: 404 })
+    }
   }),
 
   // ========== Attraction API ==========
@@ -278,13 +310,13 @@ export const handlers = [
       filtered = filtered.filter(a => a.gugunCode === parseInt(gugunCode))
     }
 
-    return HttpResponse.json(filtered)
+    return HttpResponse.json({ attractions: filtered })
   }),
 
   // 시도 목록 조회
   http.get(`${BASE_URL}/attractionRest`, async () => {
     await delay(200)
-    return HttpResponse.json(mockSidos)
+    return HttpResponse.json({ sidos: mockSidos })
   }),
 
   // 구군 목록 조회
@@ -294,7 +326,7 @@ export const handlers = [
     const sidoCode = url.searchParams.get('sidoCode')
 
     const filtered = mockGuguns.filter(g => g.sidoCode === parseInt(sidoCode))
-    return HttpResponse.json(filtered)
+    return HttpResponse.json({ guguns: filtered })
   }),
 
   // 관광지 제목 검색
@@ -306,14 +338,14 @@ export const handlers = [
     const filtered = attractions.filter(a =>
       a.title.toLowerCase().includes(title.toLowerCase())
     )
-    return HttpResponse.json(filtered)
+    return HttpResponse.json({ attractions: filtered })
   }),
 
   // 핫플레이스 조회
   http.get(`${BASE_URL}/attractionRest/hotplace`, async () => {
     await delay(200)
     const hotPlaces = [...attractions].sort((a, b) => b.likeCount - a.likeCount).slice(0, 10)
-    return HttpResponse.json(hotPlaces)
+    return HttpResponse.json({ hotplace: hotPlaces })
   }),
 
   // ========== Plan API ==========

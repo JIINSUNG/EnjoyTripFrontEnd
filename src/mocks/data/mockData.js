@@ -120,9 +120,9 @@ export const mockBoards = [
     articleId: 1,
     memberId: 'user1',
     memberName: '김여행',
-    subject: '제주도 3박 4일 여행 후기',
-    content: '<p>제주도에서 정말 즐거운 시간을 보냈습니다. 날씨도 좋고 음식도 맛있었어요!</p><p>특히 성산일출봉에서 본 일출이 정말 아름다웠습니다.</p>',
-    hit: 1245,
+    articleTitle: '제주도 3박 4일 여행 후기',
+    articleContent: '<p>제주도에서 정말 즐거운 시간을 보냈습니다. 날씨도 좋고 음식도 맛있었어요!</p><p>특히 성산일출봉에서 본 일출이 정말 아름다웠습니다.</p>',
+    viewCount: 1245,
     likeCount: 89,
     categoryId: 2,
     registerTime: '2024-11-01',
@@ -132,9 +132,9 @@ export const mockBoards = [
     articleId: 2,
     memberId: 'user2',
     memberName: '박관광',
-    subject: '서울 당일치기 코스 추천',
-    content: '<p>서울에서 하루 만에 돌아볼 수 있는 코스를 추천합니다.</p><p>경복궁 → 인사동 → 남산타워 순서로 돌아보시면 좋아요!</p>',
-    hit: 856,
+    articleTitle: '서울 당일치기 코스 추천',
+    articleContent: '<p>서울에서 하루 만에 돌아볼 수 있는 코스를 추천합니다.</p><p>경복궁 → 인사동 → 남산타워 순서로 돌아보시면 좋아요!</p>',
+    viewCount: 856,
     likeCount: 65,
     categoryId: 1,
     registerTime: '2024-11-03',
@@ -144,9 +144,9 @@ export const mockBoards = [
     articleId: 3,
     memberId: 'admin',
     memberName: '관리자',
-    subject: '[공지] 겨울 여행 추천 명소',
-    content: '<p>겨울 여행을 계획하시는 분들을 위한 추천 명소를 소개합니다.</p><p>강원도 스키장과 온천을 함께 즐기세요!</p>',
-    hit: 2340,
+    articleTitle: '[공지] 겨울 여행 추천 명소',
+    articleContent: '<p>겨울 여행을 계획하시는 분들을 위한 추천 명소를 소개합니다.</p><p>강원도 스키장과 온천을 함께 즐기세요!</p>',
+    viewCount: 2340,
     likeCount: 156,
     categoryId: 0,
     registerTime: '2024-11-05',
@@ -156,9 +156,9 @@ export const mockBoards = [
     articleId: 4,
     memberId: 'user1',
     memberName: '김여행',
-    subject: '부산 맛집 투어',
-    content: '<p>부산에서 꼭 가봐야 할 맛집들을 정리했습니다.</p><p>해운대 회센터와 광안리 카페거리를 추천드립니다!</p>',
-    hit: 1567,
+    articleTitle: '부산 맛집 투어',
+    articleContent: '<p>부산에서 꼭 가봐야 할 맛집들을 정리했습니다.</p><p>해운대 회센터와 광안리 카페거리를 추천드립니다!</p>',
+    viewCount: 1567,
     likeCount: 112,
     categoryId: 3,
     registerTime: '2024-11-07',
@@ -168,9 +168,9 @@ export const mockBoards = [
     articleId: 5,
     memberId: 'user2',
     memberName: '박관광',
-    subject: '경주 역사 탐방 코스',
-    content: '<p>경주에서 역사를 느낄 수 있는 코스를 소개합니다.</p><p>불국사, 석굴암, 첨성대를 하루에 돌아볼 수 있어요.</p>',
-    hit: 934,
+    articleTitle: '경주 역사 탐방 코스',
+    articleContent: '<p>경주에서 역사를 느낄 수 있는 코스를 소개합니다.</p><p>불국사, 석굴암, 첨성대를 하루에 돌아볼 수 있어요.</p>',
+    viewCount: 934,
     likeCount: 78,
     categoryId: 2,
     registerTime: '2024-11-09',
@@ -186,7 +186,8 @@ export const mockComments = [
     memberName: '박관광',
     content: '제주도 정말 가보고 싶네요! 좋은 정보 감사합니다.',
     registerTime: '2024-11-02',
-    profileImage: 'https://i.pravatar.cc/150?img=3'
+    profileImage: 'https://i.pravatar.cc/150?img=3',
+    parentCommentId: null
   },
   {
     commentId: 2,
@@ -195,7 +196,8 @@ export const mockComments = [
     memberName: '관리자',
     content: '좋은 후기 감사드립니다. 다른 분들에게도 도움이 될 것 같네요!',
     registerTime: '2024-11-02',
-    profileImage: 'https://i.pravatar.cc/150?img=1'
+    profileImage: 'https://i.pravatar.cc/150?img=1',
+    parentCommentId: null
   },
   {
     commentId: 3,
@@ -204,7 +206,38 @@ export const mockComments = [
     memberName: '김여행',
     content: '서울 당일치기 코스 참고하겠습니다!',
     registerTime: '2024-11-04',
-    profileImage: 'https://i.pravatar.cc/150?img=2'
+    profileImage: 'https://i.pravatar.cc/150?img=2',
+    parentCommentId: null
+  },
+  {
+    commentId: 4,
+    articleId: 1,
+    memberId: 'user1',
+    memberName: '김여행',
+    content: '저도 다음달에 제주도 가는데 이 정보 정말 유용하네요!',
+    registerTime: '2024-11-03',
+    profileImage: 'https://i.pravatar.cc/150?img=2',
+    parentCommentId: 1
+  },
+  {
+    commentId: 5,
+    articleId: 2,
+    memberId: 'user2',
+    memberName: '박관광',
+    content: '남산타워에서 야경 보는 것도 추천합니다!',
+    registerTime: '2024-11-05',
+    profileImage: 'https://i.pravatar.cc/150?img=3',
+    parentCommentId: null
+  },
+  {
+    commentId: 6,
+    articleId: 3,
+    memberId: 'admin',
+    memberName: '관리자',
+    content: '부산 해운대는 여름이 최고죠!',
+    registerTime: '2024-11-06',
+    profileImage: 'https://i.pravatar.cc/150?img=1',
+    parentCommentId: null
   }
 ]
 

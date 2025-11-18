@@ -179,28 +179,36 @@ onMounted(() => {
       </section>
     </div>
 
-    <div class="max-w-6xl mx-auto px-4 py-6">
-      <div class="text-center mb-5">
-        <h2 class="text-2xl font-bold text-gray-800 mb-2">인기 관광지</h2>
-        <div v-if="totalCount" class="space-y-2">
-          <p class="text-gray-600 text-sm">{{ totalCount.toLocaleString() }}개의 관광지 정보</p>
+    <div class="max-w-6xl mx-auto px-4 py-12">
+      <div class="text-center mb-10">
+        <div class="inline-flex items-center gap-3 mb-4">
+          <div class="w-12 h-12 bg-gradient-to-r from-blue-500 to-cyan-500 rounded-full flex items-center justify-center animate-pulse">
+            <i class="bx bx-trending-up text-2xl text-white"></i>
+          </div>
+          <h2 class="text-4xl font-bold bg-gradient-to-r from-blue-600 via-cyan-600 to-teal-600 bg-clip-text text-transparent">
+            인기 관광지
+          </h2>
+          <div class="w-12 h-12 bg-gradient-to-r from-cyan-500 to-teal-500 rounded-full flex items-center justify-center animate-pulse">
+            <i class="bx bx-map-alt text-2xl text-white"></i>
+          </div>
+        </div>
+        <div v-if="totalCount" class="space-y-4">
+          <div class="flex items-center justify-center gap-2 text-gray-600">
+            <i class="bx bx-info-circle text-lg"></i>
+            <p class="text-sm font-medium">전국 {{ totalCount.toLocaleString() }}개의 관광지 정보 제공</p>
+          </div>
           <button
             @click="getAttractions"
-            class="inline-flex items-center gap-2 bg-blue-600 text-white px-5 py-2 rounded-lg hover:bg-blue-700 transition-all font-medium text-sm"
+            class="group inline-flex items-center gap-2 bg-gradient-to-r from-blue-600 to-cyan-600 hover:from-blue-700 hover:to-cyan-700 text-white px-8 py-3 rounded-full transition-all font-semibold shadow-lg hover:shadow-xl hover:scale-105"
           >
+            <i class="bx bx-refresh text-xl group-hover:rotate-180 transition-transform duration-500"></i>
             <span>새로운 장소 추천받기</span>
-            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path
-                stroke-linecap="round"
-                stroke-linejoin="round"
-                stroke-width="2"
-                d="M13 7l5 5m0 0l-5 5m5-5H6"
-              ></path>
-            </svg>
+            <i class="bx bx-right-arrow-alt text-xl group-hover:translate-x-1 transition-transform"></i>
           </button>
         </div>
-        <div v-else class="flex justify-center">
-          <v-progress-circular indeterminate color="primary"></v-progress-circular>
+        <div v-else class="flex flex-col items-center gap-4 py-8">
+          <div class="w-16 h-16 border-4 border-blue-500 border-t-transparent rounded-full animate-spin"></div>
+          <p class="text-gray-600 font-medium">관광지 정보를 불러오는 중...</p>
         </div>
       </div>
       <Carousel :itemsToShow="3.9" :autoplay="1000" :wrapAround="true" :transition="500">
@@ -245,37 +253,79 @@ onMounted(() => {
         </template>
       </Carousel>
     </div>
-    <div class="max-w-6xl mx-auto px-4 py-6">
-      <div class="text-center mb-5">
-        <div class="inline-flex items-center gap-2 mb-2">
-          <h2 class="text-2xl font-bold text-gray-800">
-            <span class="bg-gradient-to-r from-purple-600 to-pink-600 bg-clip-text text-transparent"
-              >메타버스</span
-            >
-            여행
+    <div class="max-w-6xl mx-auto px-4 py-12">
+      <div class="text-center mb-10">
+        <div class="inline-flex items-center gap-3 mb-4">
+          <div class="w-12 h-12 bg-gradient-to-r from-purple-500 to-pink-500 rounded-full flex items-center justify-center animate-bounce">
+            <img
+              src="https://raw.githubusercontent.com/Tarikul-Islam-Anik/Animated-Fluent-Emojis/master/Emojis/People%20with%20professions/Woman%20Fairy%20Medium-Light%20Skin%20Tone.png"
+              alt="메타버스"
+              width="32"
+              height="32"
+            />
+          </div>
+          <h2 class="text-4xl font-bold">
+            <span class="bg-gradient-to-r from-purple-600 via-pink-600 to-rose-600 bg-clip-text text-transparent">
+              메타버스
+            </span>
+            <span class="text-gray-800"> 여행</span>
           </h2>
-          <img
-            src="https://raw.githubusercontent.com/Tarikul-Islam-Anik/Animated-Fluent-Emojis/master/Emojis/People%20with%20professions/Woman%20Fairy%20Medium-Light%20Skin%20Tone.png"
-            alt="메타버스"
-            width="40"
-            height="40"
-          />
+          <div class="w-12 h-12 bg-gradient-to-r from-pink-500 to-rose-500 rounded-full flex items-center justify-center animate-bounce" style="animation-delay: 0.2s">
+            <i class="bx bx-planet text-2xl text-white"></i>
+          </div>
         </div>
-        <p class="text-gray-600 text-sm">집에서 즐기는 가상 여행 체험</p>
+        <p class="text-gray-600 text-lg font-medium">집에서 즐기는 특별한 가상 여행 체험</p>
+        <div class="flex items-center justify-center gap-2 mt-2">
+          <div class="w-2 h-2 rounded-full bg-purple-400 animate-pulse"></div>
+          <div class="w-2 h-2 rounded-full bg-pink-400 animate-pulse" style="animation-delay: 0.2s"></div>
+          <div class="w-2 h-2 rounded-full bg-rose-400 animate-pulse" style="animation-delay: 0.4s"></div>
+        </div>
       </div>
 
-      <carousel :items-to-show="3" :wrap-around="true">
+      <Carousel :items-to-show="3" :wrap-around="true" :autoplay="3000">
         <Slide v-for="meta in metaContents" :key="meta.href">
-          <div class="flex items-center h-[300px]">
-            <a :href="meta.href" class="cursor-pointer">
-              <img :src="meta.src" class="fill" alt="사진어디감?"
-            /></a>
+          <div class="px-4 py-2">
+            <a
+              :href="meta.href"
+              target="_blank"
+              class="group block relative overflow-hidden rounded-3xl shadow-xl hover:shadow-2xl transition-all duration-500 hover:scale-105"
+            >
+              <!-- 이미지 컨테이너 -->
+              <div class="relative w-full min-h-[400px] bg-gradient-to-br from-indigo-100 to-purple-100 flex items-center justify-center">
+                <!-- 그라디언트 오버레이 -->
+                <div class="absolute inset-0 bg-gradient-to-t from-black/60 via-black/20 to-transparent z-10 group-hover:from-black/40 transition-all duration-500"></div>
+
+                <!-- 이미지 -->
+                <img
+                  :src="meta.src"
+                  class="w-full h-[400px] object-contain relative z-[5] transition-transform duration-700 group-hover:scale-105"
+                  alt="메타버스 여행"
+                />
+
+                <!-- 호버 효과 -->
+                <div class="absolute inset-0 z-20 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-500">
+                  <div class="bg-white/90 backdrop-blur-sm rounded-full p-4 shadow-lg transform scale-0 group-hover:scale-100 transition-transform duration-500">
+                    <i class="bx bx-link-external text-4xl text-purple-600"></i>
+                  </div>
+                </div>
+
+                <!-- 하단 텍스트 -->
+                <div class="absolute bottom-0 left-0 right-0 z-20 p-6 transform translate-y-2 group-hover:translate-y-0 transition-transform duration-500">
+                  <div class="flex items-center gap-2 text-white drop-shadow-lg">
+                    <i class="bx bx-world text-2xl"></i>
+                    <span class="text-lg font-bold">가상 여행 체험하기</span>
+                    <i class="bx bx-right-arrow-alt text-xl group-hover:translate-x-2 transition-transform"></i>
+                  </div>
+                </div>
+              </div>
+            </a>
           </div>
         </Slide>
         <template #addons>
           <Navigation />
+          <Pagination />
         </template>
-      </carousel>
+      </Carousel>
     </div>
     <!-- <div class="flex flex-col justify-center mt-[20px]">
       <h1 class="text-center">메타버스 여행</h1>

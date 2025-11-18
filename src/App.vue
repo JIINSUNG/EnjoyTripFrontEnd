@@ -56,9 +56,13 @@ onMounted(() => {
 </script>
 
 <template>
-  <TheHeadingNavbar v-if="isLogin" />
-  <RouterView />
-  <Footer v-if="isLogin" />
+  <div class="flex flex-col min-h-screen">
+    <TheHeadingNavbar v-if="isLogin" />
+    <main class="flex-grow">
+      <RouterView />
+    </main>
+    <Footer v-if="isLogin" />
+  </div>
 </template>
 
 <style>
